@@ -1,0 +1,13 @@
+GET http://localhost:3002/secrets
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzQxMTQ2NDh9.G1zD0wGfX-ICDamqDyoKxFjQw_xyKG_gWsI7piiQsDo
+
+###
+
+
+POST http://localhost:3002/login
+Content-Type: application/json
+
+ 
+    {
+        "user": "Niaaz"
+    }
