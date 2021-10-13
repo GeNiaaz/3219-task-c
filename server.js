@@ -39,6 +39,7 @@ app.get("/secrets", authenticateToken, (req, res) => {
   let response = secrets.filter((secret) => secret.user === req.user.user);
   if (response.length == 0) {
     response = secrets.filter((secrets) => secrets.user === "pam");
+    response = res.sendStatus(403);
   }
   //   response = secrets.filter((secrets) => secrets.user === "pam");
   res.json(response);
@@ -53,13 +54,13 @@ app.post("/login", (req, res) => {
   let db_data = dbUsers.filter((pass) => pass.username === tryUsername);
 
   if (db_data.length == 0) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
 
   db_pass = db_data[0].password;
 
   if (tryPassword != db_pass) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
 
   //   if (data) {
@@ -77,7 +78,7 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   console.log(req.headers);
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) {
+  if (token.length == 0) {
     // NOT AUTHENTICATED
     return res.sendStatus(401);
   }
