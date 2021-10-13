@@ -50,6 +50,22 @@ app.post("/login", (req, res) => {
   const tryUsername = req.headers.username;
   const tryPassword = req.headers.password;
 
+  let db_data = dbUsers.filter((pass) => pass.username === tryUsername);
+
+  if (db_data.length == 0) {
+    return res.sendStatus(403);
+  }
+
+  db_pass = db_data[0].password;
+
+  if (tryPassword != db_pass) {
+    return res.sendStatus(403);
+  }
+
+  //   if (data) {
+  //       let
+  //   }
+
   const username = req.headers.username;
   const user = { user: username };
 
@@ -59,6 +75,7 @@ app.post("/login", (req, res) => {
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
+  console.log(req.headers);
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
     // NOT AUTHENTICATED
